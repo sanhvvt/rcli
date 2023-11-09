@@ -1,0 +1,22 @@
+# build
+
+bin/
+install/
+build/
+linuxbuild/
+
+/*.dll
+/*.o
+/*.so
+/*.dylib
+/*.a
+/*.pc
+/*.dSYM
+
+# idea
+
+.vscode/
+.vs/
+.idea/
+
+# dependencies
