@@ -64,7 +64,7 @@ void run_test(RedisClient* rcli, const std::string& cmd) {
     if (cmd == "*" || cmd == "expire") {
         test_expire_key(rcli);
     }
-    if (strncasecmp(cmd.c_str(), "exist", 5) == 0) {
+    if (cmd.substr(0, 5) == "exist") {
         test_exist(rcli, cmd.c_str() + 6);
     }
 }

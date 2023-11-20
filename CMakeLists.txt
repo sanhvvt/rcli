@@ -53,6 +53,10 @@ ExternalProject_Add( libhiredis
 		-DBUILD_SHARED_LIBS:BOOL=OFF
 	)
 
+if(WIN32)
+    set(3rd_LIBRARIES ${3rd_LIBRARIES} ws2_32)
+endif()
+
 include_directories(${libhiredis_INCLUDES})
 file(GLOB rcli_src src/*.cpp)
 file(GLOB rcli_hdr src/*.h)
@@ -60,18 +64,18 @@ file(GLOB rcli_hdr src/*.h)
 if(rcli_BUILD_SHARED)
 	add_library(rcli SHARED ${rcli_src} ${rcli_hdr})
 	add_dependencies(rcli libhiredis)
-	target_link_libraries(rcli PRIVATE ${libhiredis_LIBRARIES})
+	target_link_libraries(rcli PRIVATE ${libhiredis_LIBRARIES} ${3rd_LIBRARIES})
 else()
 	add_library(rcli STATIC ${rcli_src} ${rcli_hdr})
 	add_dependencies(rcli libhiredis)
-	target_link_libraries(rcli PRIVATE ${libhiredis_LIBRARIES})
+	target_link_libraries(rcli PRIVATE ${libhiredis_LIBRARIES} ${3rd_LIBRARIES})
 endif()
 
 install(FILES rcli.h DESTINATION "${CMAKE_INSTALL_PREFIX}/include")
 install(TARGETS rcli DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
-if (WIN32)
+if(MSVC)
 	set_target_properties(rcli PROPERTIES OUTPUT_NAME librcli)
-endif(WIN32)
+endif(MSVC)
 
 include_directories(src)
 file(GLOB test_src test/*.cpp)

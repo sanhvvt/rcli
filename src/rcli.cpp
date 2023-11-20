@@ -1,6 +1,16 @@
 #include "rcli.h"
 #include <hiredis/hiredis.h>
 
+#ifdef _MSC_VER
+#    include <winsock2.h>
+#    ifndef strcasecmp
+#        define strcasecmp stricmp
+#    endif
+#    ifndef strncasecmp
+#        define strncasecmp strnicmp
+#    endif
+#endif
+
 class RedisClientImpl {
 public:
     bool connect(const std::string& host, uint32_t port);
